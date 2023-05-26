@@ -1,0 +1,24 @@
+.btn__submit {
+  min-height: 50px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 48px;
+  color: #fff;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.22;
+  background-color: #000;
+  transition: opacity 0.2s linear;
+}
+.btn__submit:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+@media screen and (max-width: 600px) {
+  .btn__submit {
+    font-size: 14px;
+    line-height: 1.17;
+  }
+}

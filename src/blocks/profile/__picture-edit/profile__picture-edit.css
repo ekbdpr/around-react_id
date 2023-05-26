@@ -1,0 +1,7 @@
+.profile__picture-edit {
+  position: absolute;
+  top: 46px;
+  left: 46px;
+  pointer-events: none;
+  display: none;
+}

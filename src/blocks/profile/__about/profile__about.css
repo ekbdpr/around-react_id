@@ -1,0 +1,20 @@
+.profile__about {
+  grid-area: title;
+  color: #fff;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 1.22;
+  overflow-wrap: anywhere;
+}
+@media screen and (max-width: 1024px) {
+  .profile__about {
+    text-align: center;
+  }
+}
+@media screen and (max-width: 600px) {
+  .profile__about {
+    font-size: 14px;
+    line-height: 1.17;
+    text-align: center;
+  }
+}

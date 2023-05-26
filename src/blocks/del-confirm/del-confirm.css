@@ -1,0 +1,18 @@
+.del-confirm {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 40%;
+  left: auto;
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s linear, visibility 0s linear;
+}
+@media screen and (max-width: 600px) {
+  .del-confirm {
+    max-width: 282px;
+  }
+}

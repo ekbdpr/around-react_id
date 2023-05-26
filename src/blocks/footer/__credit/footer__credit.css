@@ -1,0 +1,12 @@
+.footer__credit {
+  color: #545454;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.22;
+}
+@media screen and (max-width: 600px) {
+  .footer__credit {
+    font-size: 14px;
+    line-height: 1.17;
+  }
+}

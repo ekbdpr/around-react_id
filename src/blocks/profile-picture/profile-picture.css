@@ -1,0 +1,19 @@
+.profile-picture {
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  z-index: 1;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s linear, visibility 0s linear;
+}
+@media screen and (max-width: 600px) {
+  .profile-picture {
+    max-width: 282px;
+  }
+}

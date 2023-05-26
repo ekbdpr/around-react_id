@@ -1,0 +1,28 @@
+.main-content {
+  max-width: 880px;
+  width: 100vw;
+  padding-top: 45px;
+  background-color: #000;
+  transition: opacity 0.3s linear;
+}
+@media screen and (max-width: 1024px) {
+  .main-content {
+    max-width: 768px;
+    padding: 28px 19px 36px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .main-content {
+    max-width: 600px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .main-content {
+    max-width: 425px;
+  }
+}
+@media screen and (max-width: 425px) {
+  .main-content {
+    max-width: 320px;
+  }
+}

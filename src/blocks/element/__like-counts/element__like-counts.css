@@ -1,0 +1,8 @@
+.element__like-counts {
+  grid-area: count;
+  text-align: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+}

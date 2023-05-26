@@ -1,0 +1,16 @@
+.btn__close {
+  margin: 0 0 0 auto;
+  transition: opacity 0.2s linear;
+  top: -40px;
+  right: -40px;
+  position: absolute;
+}
+@media screen and (max-width: 600px) {
+  .btn__close {
+    right: 0;
+  }
+}
+.btn__close:hover {
+  opacity: 0.6;
+  cursor: pointer;
+}
