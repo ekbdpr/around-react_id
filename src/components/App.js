@@ -9,6 +9,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] =
     React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState(null);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -22,10 +23,15 @@ function App() {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
   }
 
+  function handleCardClick(card) {
+    setSelectedCard(card);
+  }
+
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setSelectedCard(null);
   }
 
   return (
@@ -39,25 +45,12 @@ function App() {
           isEditProfilePopupOpen={isEditProfilePopupOpen}
           onAddPlaceClick={handleAddPlaceClick}
           isAddPlacePopupOpen={isAddPlacePopupOpen}
+          onCardClick={handleCardClick}
+          selectedCard={selectedCard}
           onCloseClick={closeAllPopups}
         />
         <Footer />
       </div>
-      <template id="card-template">
-        <li className="element__item">
-          <div className="element__container">
-            <img src="#" alt="" className="element__image" />
-            <p className="element__text"></p>
-            <button className="btn element__heart-btn">
-              <img src="./images/symbols/heart.svg" alt="heart symbol" />
-            </button>
-            <button className="btn element__delete-btn">
-              <img src="./images/symbols/delete.svg" alt="delete symbol" />
-            </button>
-            <p className="element__like-counts">0</p>
-          </div>
-        </li>
-      </template>
     </>
   );
 }

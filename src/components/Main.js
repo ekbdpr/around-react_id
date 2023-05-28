@@ -1,9 +1,27 @@
+import React from "react";
 import profileImage from "../images/symbols/edit_symbol.svg";
 import editIcon from "../images/symbols/pencil_symbol.svg";
 import addCardIcon from "../images/symbols/plus_symbol.svg";
+import api from "../utils/api";
 import PopupWithForm from "./PopupWithForm";
+import Card from "./Card";
+import ImagePopup from "./ImagePopup";
 
 function Main(props) {
+  const [userName, setUserName] = React.useState();
+  const [userDescription, setUserDescription] = React.useState();
+  const [userAvatar, setUserAvatar] = React.useState();
+  const [cardList, setCardList] = React.useState([]);
+
+  React.useEffect(() => {
+    api.getInitialInfo().then(([cards, user]) => {
+      setUserName(user.name);
+      setUserDescription(user.about);
+      setUserAvatar(user.avatar);
+      setCardList(cards);
+    });
+  }, []);
+
   return (
     <>
       <main>
@@ -97,9 +115,18 @@ function Main(props) {
           title="Apakah Anda yakin?"
           saveButton="Ya"
         />
+        <ImagePopup
+          isOpen={Boolean(props.selectedCard)}
+          card={props.selectedCard}
+          onClose={props.onCloseClick}
+        />
         <div className="profile">
           <button className="btn btn_profile" onClick={props.onEditAvatarClick}>
-            <img src="#" alt="user profile" className="profile__picture" />
+            <img
+              src={userAvatar}
+              alt="user profile"
+              className="profile__picture"
+            />
             <img
               src={profileImage}
               alt="profile edit"
@@ -107,8 +134,8 @@ function Main(props) {
             />
           </button>
           <div className="profile__info">
-            <p className="profile__username"></p>
-            <p className="profile__about"></p>
+            <p className="profile__username">{userName}</p>
+            <p className="profile__about">{userDescription}</p>
             <button className="btn btn_edit" onClick={props.onEditProfileClick}>
               <img src={editIcon} alt="edit button" />
             </button>
@@ -117,7 +144,17 @@ function Main(props) {
             <img src={addCardIcon} alt="add button" />
           </button>
         </div>
-        <ul className="element"></ul>
+        <ul className="element">
+          {cardList.map((card) => {
+            return (
+              <Card
+                key={card._id}
+                card={card}
+                onCardClick={props.onCardClick}
+              />
+            );
+          })}
+        </ul>
       </main>
     </>
   );
