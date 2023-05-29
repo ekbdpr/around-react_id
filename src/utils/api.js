@@ -1,9 +1,3 @@
-const baseUrl = "https://around.nomoreparties.co/v1/web_idn_02";
-const headers = {
-  authorization: "008c1c55-3b56-46f6-9605-a10cac4bcdce",
-  "Content-Type": "application/json",
-};
-
 class Api {
   constructor({ baseUrl, headers }) {
     this._baseUrl = baseUrl;

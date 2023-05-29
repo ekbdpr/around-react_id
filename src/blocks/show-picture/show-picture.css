@@ -1,19 +1,17 @@
 .show-picture {
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: fixed;
-  top: 15%;
+  top: 0;
   left: 50%;
   transform: translate(-50%, 0);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 1;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.3s linear, visibility 0s linear;
-}
-
-@media screen and (max-width: 600px) {
-  .show-picture {
-    top: 30%;
-  }
 }

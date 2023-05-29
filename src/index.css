@@ -3,7 +3,6 @@
 /* page settings */
 @import url(./blocks/content/content.css);
 @import url(./blocks/main-content/main-content.css);
-@import url(./blocks/main-content/_disabled/main-content_disabled.css);
 /* header section*/
 @import url(./blocks/header/__logo/header__logo.css);
 @import url(./blocks/header/__line/header__line.css);
