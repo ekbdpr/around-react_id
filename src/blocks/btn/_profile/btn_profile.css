@@ -1,5 +1,26 @@
 .btn_profile {
   position: relative;
+  width: 120px;
+  height: 120px;
   margin: 0;
   border-radius: 100%;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  isolation: isolate;
+  cursor: pointer;
+}
+
+.btn_profile::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background-color: black;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+
+.btn_profile:hover::after {
+  opacity: 0.8;
 }

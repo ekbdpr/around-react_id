@@ -1,7 +1,8 @@
 .profile__picture-edit {
-  position: absolute;
-  top: 46px;
-  left: 46px;
-  pointer-events: none;
-  display: none;
+  opacity: 0;
+  transition: opacity 0.2s linear;
+}
+
+.btn_profile:hover .profile__picture-edit {
+  opacity: 1;
 }

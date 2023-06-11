@@ -2,7 +2,12 @@ import deleteCardIcon from "../images/symbols/delete.svg";
 import likeCardIcon from "../images/symbols/heart.svg";
 
 function Card(props) {
-  const { card, handleDelButton } = props;
+  const {
+    card,
+    handleDeleteButton,
+    cardLikeButtonClassName,
+    cardDeleteButtonClassName,
+  } = props;
 
   function handleClick() {
     props.onCardClick(card);
@@ -19,10 +24,13 @@ function Card(props) {
             onClick={handleClick}
           />
           <p className="element__text">{card.name}</p>
-          <button className="btn element__heart-btn">
+          <button className={`btn ${cardLikeButtonClassName}`}>
             <img src={likeCardIcon} alt="heart symbol" />
           </button>
-          <button className="btn element__delete-btn" onClick={handleDelButton}>
+          <button
+            className={`btn ${cardDeleteButtonClassName}`}
+            onClick={handleDeleteButton}
+          >
             <img src={deleteCardIcon} alt="delete symbol" />
           </button>
           <p className="element__like-counts">{card.likes.length}</p>

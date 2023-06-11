@@ -12,22 +12,18 @@ class Api {
     return Promise.reject(`Error: ${res.status}`);
   }
 
-  _getInitialCard() {
+  getInitialCard() {
     return fetch(`${this._baseUrl}/cards`, {
       method: "GET",
       headers: this._headers,
     }).then(this._checkResponse);
   }
 
-  _getUserInfo() {
+  getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: "GET",
       headers: this._headers,
     }).then(this._checkResponse);
-  }
-
-  getInitialInfo() {
-    return Promise.all([this._getInitialCard(), this._getUserInfo()]);
   }
 
   setUserPicture(value) {

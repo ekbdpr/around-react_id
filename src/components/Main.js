@@ -1,8 +1,12 @@
-import React from "react";
+import { useContext } from "react";
+
+import CurrentUserContext from "../contexts/CurrentUserContext";
+import CardContext from "../contexts/CardContext";
+
 import profileImage from "../images/symbols/edit_symbol.svg";
 import editIcon from "../images/symbols/pencil_symbol.svg";
 import addCardIcon from "../images/symbols/plus_symbol.svg";
-import api from "../utils/api";
+
 import PopupWithForm from "./PopupWithForm";
 import Card from "./Card";
 import ImagePopup from "./ImagePopup";
@@ -22,19 +26,8 @@ function Main(props) {
     onCardClick,
   } = props;
 
-  const [userName, setUserName] = React.useState();
-  const [userDescription, setUserDescription] = React.useState();
-  const [userAvatar, setUserAvatar] = React.useState();
-  const [cardList, setCardList] = React.useState([]);
-
-  React.useEffect(() => {
-    api.getInitialInfo().then(([cards, user]) => {
-      setUserName(user.name);
-      setUserDescription(user.about);
-      setUserAvatar(user.avatar);
-      setCardList(cards);
-    });
-  }, []);
+  const currentUser = useContext(CurrentUserContext);
+  const card = useContext(CardContext);
 
   return (
     <>
@@ -143,12 +136,11 @@ function Main(props) {
           onClose={onCloseClick}
         />
         <div className="profile">
-          <button className="btn btn_profile" onClick={onEditAvatarClick}>
-            <img
-              src={userAvatar}
-              alt="user profile"
-              className="profile__picture"
-            />
+          <button
+            className="btn btn_profile"
+            style={{ backgroundImage: `url(${currentUser.avatar})` }}
+            onClick={onEditAvatarClick}
+          >
             <img
               src={profileImage}
               alt="profile edit"
@@ -156,8 +148,8 @@ function Main(props) {
             />
           </button>
           <div className="profile__info">
-            <p className="profile__username">{userName}</p>
-            <p className="profile__about">{userDescription}</p>
+            <p className="profile__username">{currentUser.name}</p>
+            <p className="profile__about">{currentUser.about}</p>
             <button className="btn btn_edit" onClick={onEditProfileClick}>
               <img src={editIcon} alt="edit button" />
             </button>
@@ -167,13 +159,30 @@ function Main(props) {
           </button>
         </div>
         <ul className="element">
-          {cardList.map((card) => {
+          {card.map((card) => {
+            const isOwn = card.owner._id === currentUser._id;
+            const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+            const cardDeleteButtonClassName = `element__delete-btn ${
+              isOwn
+                ? "element__delete-btn_visible"
+                : "element__delete-btn_hidden"
+            }`;
+
+            const cardLikeButtonClassName = `element__heart-btn ${
+              isLiked
+                ? "element__heart-btn_active"
+                : "element__heart-btn_deactive"
+            }`;
+
             return (
               <Card
                 key={card._id}
                 card={card}
                 onCardClick={onCardClick}
-                handleDelButton={onDeleteButtonClick}
+                cardLikeButtonClassName={cardLikeButtonClassName}
+                cardDeleteButtonClassName={cardDeleteButtonClassName}
+                handleDeleteButton={onDeleteButtonClick}
               />
             );
           })}

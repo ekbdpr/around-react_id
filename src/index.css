@@ -32,6 +32,8 @@
 @import url(./blocks/element/__heart-btn/_active/element__heart-btn_active.css);
 @import url(./blocks/element/__like-counts/element__like-counts.css);
 @import url(./blocks/element/__delete-btn/element__delete-btn.css);
+@import url(./blocks/element/__delete-btn/_visible/element__delete-btn_visible.css);
+@import url(./blocks/element/__delete-btn/_hidden/element__delete-btn_hidden.css);
 /* footer */
 @import url(./blocks/footer/footer.css);
 @import url(./blocks/footer/__credit/footer__credit.css);

@@ -1,4 +1,3 @@
-import React from "react";
 import closeIcon from "../images/symbols/close.svg";
 
 function PopupWithForm(props) {
