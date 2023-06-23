@@ -7,10 +7,21 @@ function Card(props) {
     handleDeleteButton,
     cardLikeButtonClassName,
     cardDeleteButtonClassName,
+    onCardClick,
+    onCardLike,
+    onCardDelete,
   } = props;
 
   function handleClick() {
-    props.onCardClick(card);
+    onCardClick(card);
+  }
+
+  function handleLikeClick() {
+    onCardLike(card);
+  }
+
+  function handleDeleteClick() {
+    onCardDelete(card);
   }
 
   return (
@@ -25,11 +36,15 @@ function Card(props) {
           />
           <p className="element__text">{card.name}</p>
           <button className={`btn ${cardLikeButtonClassName}`}>
-            <img src={likeCardIcon} alt="heart symbol" />
+            <img
+              src={likeCardIcon}
+              alt="heart symbol"
+              onClick={handleLikeClick}
+            />
           </button>
           <button
             className={`btn ${cardDeleteButtonClassName}`}
-            onClick={handleDeleteButton}
+            onClick={handleDeleteClick}
           >
             <img src={deleteCardIcon} alt="delete symbol" />
           </button>

@@ -17,7 +17,7 @@ function App() {
   const [isDeleteConfirmPopupOpen, setisDeleteConfirmPopupOpen] =
     useState(false);
   const [currentUser, setCurrentUser] = useState({});
-  const [card, setCard] = useState([]);
+  const [cards, setCards] = useState([]);
 
   useEffect(() => {
     api.getUserInfo().then((user) => {
@@ -25,7 +25,7 @@ function App() {
     });
 
     api.getInitialCard().then((card) => {
-      setCard(card);
+      setCards(card);
     });
   }, []);
 
@@ -62,7 +62,7 @@ function App() {
       <div className="main-content">
         <Header />
         <CurrentUserContext.Provider value={currentUser}>
-          <CardContext.Provider value={card}>
+          <CardContext.Provider value={{ cards, setCards }}>
             <Main
               onEditAvatarClick={handleEditAvatarClick}
               isEditAvatarPopupOpen={isEditAvatarPopupOpen}

@@ -11,6 +11,8 @@ import PopupWithForm from "./PopupWithForm";
 import Card from "./Card";
 import ImagePopup from "./ImagePopup";
 
+import api from "../utils/api";
+
 function Main(props) {
   const {
     onCloseClick,
@@ -27,7 +29,21 @@ function Main(props) {
   } = props;
 
   const currentUser = useContext(CurrentUserContext);
-  const card = useContext(CardContext);
+  const { cards, setCards } = useContext(CardContext);
+
+  function handleCardLike(card) {
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
+    });
+  }
+
+  function handleCardDelete(card) {
+    api.deleteCard(card._id).then(() => {
+      setCards((state) => state.filter((c) => c._id !== card._id));
+    });
+  }
 
   return (
     <>
@@ -159,7 +175,7 @@ function Main(props) {
           </button>
         </div>
         <ul className="element">
-          {card.map((card) => {
+          {cards.map((card) => {
             const isOwn = card.owner._id === currentUser._id;
             const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
@@ -180,8 +196,10 @@ function Main(props) {
                 key={card._id}
                 card={card}
                 onCardClick={onCardClick}
+                onCardLike={handleCardLike}
                 cardLikeButtonClassName={cardLikeButtonClassName}
                 cardDeleteButtonClassName={cardDeleteButtonClassName}
+                onCardDelete={handleCardDelete}
                 handleDeleteButton={onDeleteButtonClick}
               />
             );

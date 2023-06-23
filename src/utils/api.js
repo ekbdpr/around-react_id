@@ -26,29 +26,11 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  setUserPicture(value) {
-    return fetch(`${this._baseUrl}/users/me/avatar`, {
-      method: "PATCH",
-      body: JSON.stringify({ avatar: value }),
-      headers: this._headers,
-    }).then(this._checkResponse);
-  }
+  changeLikeCardStatus(cardId, isLiked) {
+    const method = isLiked ? "PUT" : "DELETE";
 
-  setUserInfo(value) {
-    return fetch(`${this._baseUrl}/users/me`, {
-      method: "PATCH",
-      body: JSON.stringify({
-        name: value.name,
-        about: value.title,
-      }),
-      headers: this._headers,
-    }).then(this._checkResponse);
-  }
-
-  postCard(value) {
-    return fetch(`${this._baseUrl}/cards`, {
-      method: "POST",
-      body: JSON.stringify(value),
+    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
+      method,
       headers: this._headers,
     }).then(this._checkResponse);
   }
@@ -60,19 +42,32 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  likeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "PUT",
-      headers: this._headers,
-    }).then(this._checkResponse);
-  }
+  // setUserPicture(value) {
+  //   return fetch(`${this._baseUrl}/users/me/avatar`, {
+  //     method: "PATCH",
+  //     body: JSON.stringify({ avatar: value }),
+  //     headers: this._headers,
+  //   }).then(this._checkResponse);
+  // }
 
-  dislikeCard(cardId) {
-    return fetch(`${this._baseUrl}/cards/likes/${cardId}`, {
-      method: "DELETE",
-      headers: this._headers,
-    }).then(this._checkResponse);
-  }
+  // setUserInfo(value) {
+  //   return fetch(`${this._baseUrl}/users/me`, {
+  //     method: "PATCH",
+  //     body: JSON.stringify({
+  //       name: value.name,
+  //       about: value.title,
+  //     }),
+  //     headers: this._headers,
+  //   }).then(this._checkResponse);
+  // }
+
+  // postCard(value) {
+  //   return fetch(`${this._baseUrl}/cards`, {
+  //     method: "POST",
+  //     body: JSON.stringify(value),
+  //     headers: this._headers,
+  //   }).then(this._checkResponse);
+  // }
 }
 
 const api = new Api({
