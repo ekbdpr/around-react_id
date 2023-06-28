@@ -1,7 +1,25 @@
+import { useState } from "react";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup(props) {
-  const { isOpen, onClose } = props;
+  const { isOpen, onClose, onAddPlaceSubmit } = props;
+
+  const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
+
+  const handleTitleChange = (e) => {
+    setTitle(e.target.value);
+  };
+
+  const handleLinkChange = (e) => {
+    setLink(e.target.value);
+  };
+
+  const handleAddPlaceSubmit = (e) => {
+    e.preventDefault();
+
+    onAddPlaceSubmit({ name: title, link });
+  };
   return (
     <>
       <PopupWithForm
@@ -10,7 +28,7 @@ function AddPlacePopup(props) {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <form className="form" noValidate>
+        <form className="form" noValidate onSubmit={handleAddPlaceSubmit}>
           <input
             type="text"
             name="title"
@@ -19,6 +37,7 @@ function AddPlacePopup(props) {
             placeholder="Judul"
             minLength="2"
             maxLength="30"
+            onChange={handleTitleChange}
             required
           />
           <div className="form__text-container">
@@ -30,6 +49,7 @@ function AddPlacePopup(props) {
             id="add-card-link"
             className="form__input"
             placeholder="Tautan gambar"
+            onChange={handleLinkChange}
             required
           />
           <div className="form__text-container">

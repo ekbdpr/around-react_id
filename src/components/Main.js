@@ -1,15 +1,12 @@
 import { useContext } from "react";
 
 import CurrentUserContext from "../contexts/CurrentUserContext";
-import CardContext from "../contexts/CardContext";
 
 import profileImage from "../images/symbols/edit_symbol.svg";
 import editIcon from "../images/symbols/pencil_symbol.svg";
 import addCardIcon from "../images/symbols/plus_symbol.svg";
 
 import Card from "./Card";
-
-import api from "../utils/api";
 
 function Main(props) {
   const {
@@ -18,24 +15,12 @@ function Main(props) {
     onAddPlaceClick,
     onDeleteButtonClick,
     onCardClick,
+    cards,
+    onCardLike,
+    onCardDelete,
   } = props;
 
-  const { currentUser } = useContext(CurrentUserContext);
-  const { cards, setCards } = useContext(CardContext);
-
-  const handleCardLike = (card) => {
-    const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
-    api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-    });
-  };
-
-  const handleCardDelete = (card) => {
-    api.deleteCard(card._id).then(() => {
-      setCards((state) => state.filter((c) => c._id !== card._id));
-    });
-  };
+  const currentUser = useContext(CurrentUserContext);
 
   return (
     <>
@@ -85,10 +70,10 @@ function Main(props) {
                 key={card._id}
                 card={card}
                 onCardClick={onCardClick}
-                onCardLike={handleCardLike}
+                onCardLike={onCardLike}
                 cardLikeButtonClassName={cardLikeButtonClassName}
                 cardDeleteButtonClassName={cardDeleteButtonClassName}
-                onCardDelete={handleCardDelete}
+                onCardDelete={onCardDelete}
                 handleDeleteButton={onDeleteButtonClick}
               />
             );

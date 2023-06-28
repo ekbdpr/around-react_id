@@ -61,13 +61,13 @@ class Api {
     }).then(this._checkResponse);
   }
 
-  // postCard(value) {
-  //   return fetch(`${this._baseUrl}/cards`, {
-  //     method: "POST",
-  //     body: JSON.stringify(value),
-  //     headers: this._headers,
-  //   }).then(this._checkResponse);
-  // }
+  postCard(value) {
+    return fetch(`${this._baseUrl}/cards`, {
+      method: "POST",
+      body: JSON.stringify(value),
+      headers: this._headers,
+    }).then(this._checkResponse);
+  }
 }
 
 const api = new Api({
