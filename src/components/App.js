@@ -29,39 +29,39 @@ function App() {
     });
   }, []);
 
-  function handleEditAvatarClick() {
+  const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
-  }
+  };
 
-  function handleEditProfileClick() {
+  const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(!isEditProfilePopupOpen);
-  }
+  };
 
-  function handleAddPlaceClick() {
+  const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(!isAddPlacePopupOpen);
-  }
+  };
 
-  function handleCardClick(card) {
+  const handleCardClick = (card) => {
     setSelectedCard(card);
-  }
+  };
 
-  function handleDeleteCardClick() {
+  const handleDeleteCardClick = () => {
     setisDeleteConfirmPopupOpen(!isDeleteConfirmPopupOpen);
-  }
+  };
 
-  function closeAllPopups() {
+  const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setisDeleteConfirmPopupOpen(false);
     setSelectedCard(null);
-  }
+  };
 
   return (
     <>
       <div className="main-content">
         <Header />
-        <CurrentUserContext.Provider value={currentUser}>
+        <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>
           <CardContext.Provider value={{ cards, setCards }}>
             <Main
               onEditAvatarClick={handleEditAvatarClick}

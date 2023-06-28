@@ -12,17 +12,17 @@ function Card(props) {
     onCardDelete,
   } = props;
 
-  function handleClick() {
+  const handleClick = () => {
     onCardClick(card);
-  }
+  };
 
-  function handleLikeClick() {
+  const handleLikeClick = () => {
     onCardLike(card);
-  }
+  };
 
-  function handleDeleteClick() {
+  const handleDeleteClick = () => {
     onCardDelete(card);
-  }
+  };
 
   return (
     <>

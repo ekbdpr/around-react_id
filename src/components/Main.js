@@ -8,6 +8,7 @@ import editIcon from "../images/symbols/pencil_symbol.svg";
 import addCardIcon from "../images/symbols/plus_symbol.svg";
 
 import PopupWithForm from "./PopupWithForm";
+import EditProfilePopup from "./EditProfilePopup";
 import Card from "./Card";
 import ImagePopup from "./ImagePopup";
 
@@ -28,66 +29,41 @@ function Main(props) {
     onCardClick,
   } = props;
 
-  const currentUser = useContext(CurrentUserContext);
+  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
   const { cards, setCards } = useContext(CardContext);
 
-  function handleCardLike(card) {
+  const handleCardLike = (card) => {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
       setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
-  }
+  };
 
-  function handleCardDelete(card) {
+  const handleCardDelete = (card) => {
     api.deleteCard(card._id).then(() => {
       setCards((state) => state.filter((c) => c._id !== card._id));
     });
-  }
+  };
+
+  const handleUpdateUser = (value) => {
+    api.setUserInfo(value).then((updatedUser) => {
+      setCurrentUser(updatedUser);
+      onCloseClick();
+    });
+  };
 
   return (
     <>
       <main>
-        <PopupWithForm
-          name="edit-profile"
-          title="Edit Profil"
-          saveButton="Simpan"
+        <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={onCloseClick}
-        >
-          <form className="form" noValidate>
-            <input
-              type="text"
-              name="name"
-              id="edit-profile-name"
-              className="form__input"
-              placeholder="Nama"
-              minLength="2"
-              maxLength="40"
-              required
-            />
-            <div className="form__text-container">
-              <span className="form__input-error edit-profile-name-error"></span>
-            </div>
-            <input
-              type="text"
-              name="title"
-              id="edit-profile-title"
-              className="form__input"
-              placeholder="Tentang saya"
-              minLength="2"
-              maxLength="200"
-              required
-            />
-            <div className="form__text-container">
-              <span className="form__input-error edit-profile-title-error"></span>
-            </div>
-          </form>
-        </PopupWithForm>
+          onUpdateUser={handleUpdateUser}
+        ></EditProfilePopup>
         <PopupWithForm
           name="add-card"
           title="Tempat baru"
-          saveButton="Buat"
           isOpen={isAddPlacePopupOpen}
           onClose={onCloseClick}
         >
@@ -116,12 +92,14 @@ function Main(props) {
             <div className="form__text-container">
               <span className="form__input-error add-card-link-error"></span>
             </div>
+            <button type="submit" className="btn btn__submit">
+              Buat
+            </button>
           </form>
         </PopupWithForm>
         <PopupWithForm
           name="profile-picture"
           title="Ubah foto profil"
-          saveButton="Simpan"
           isOpen={isEditAvatarPopupOpen}
           onClose={onCloseClick}
         >
@@ -137,15 +115,21 @@ function Main(props) {
             <div className="form__text-container">
               <span className="form__input-error profile-picture-link-error"></span>
             </div>
+            <button type="submit" className="btn btn__submit">
+              Simpan
+            </button>
           </form>
         </PopupWithForm>
         <PopupWithForm
           name="del-confirm"
           title="Apakah Anda yakin?"
-          saveButton="Ya"
           isOpen={isDeleteConfirmPopupOpen}
           onClose={onCloseClick}
-        />
+        >
+          <button type="submit" className="btn btn__submit">
+            Ya
+          </button>
+        </PopupWithForm>
         <ImagePopup
           isOpen={Boolean(selectedCard)}
           card={selectedCard}
