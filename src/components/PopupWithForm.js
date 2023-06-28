@@ -1,7 +1,7 @@
 import closeIcon from "../images/symbols/close.svg";
 
 function PopupWithForm(props) {
-  const { isOpen, onClose, name, title, children, saveButton } = props;
+  const { isOpen, onClose, name, title, children } = props;
 
   return (
     <>

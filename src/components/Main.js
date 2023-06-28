@@ -7,21 +7,12 @@ import profileImage from "../images/symbols/edit_symbol.svg";
 import editIcon from "../images/symbols/pencil_symbol.svg";
 import addCardIcon from "../images/symbols/plus_symbol.svg";
 
-import PopupWithForm from "./PopupWithForm";
-import EditProfilePopup from "./EditProfilePopup";
 import Card from "./Card";
-import ImagePopup from "./ImagePopup";
 
 import api from "../utils/api";
 
 function Main(props) {
   const {
-    onCloseClick,
-    isEditProfilePopupOpen,
-    isAddPlacePopupOpen,
-    isEditAvatarPopupOpen,
-    isDeleteConfirmPopupOpen,
-    selectedCard,
     onEditAvatarClick,
     onEditProfileClick,
     onAddPlaceClick,
@@ -29,7 +20,7 @@ function Main(props) {
     onCardClick,
   } = props;
 
-  const { currentUser, setCurrentUser } = useContext(CurrentUserContext);
+  const { currentUser } = useContext(CurrentUserContext);
   const { cards, setCards } = useContext(CardContext);
 
   const handleCardLike = (card) => {
@@ -46,95 +37,9 @@ function Main(props) {
     });
   };
 
-  const handleUpdateUser = (value) => {
-    api.setUserInfo(value).then((updatedUser) => {
-      setCurrentUser(updatedUser);
-      onCloseClick();
-    });
-  };
-
   return (
     <>
       <main>
-        <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onClose={onCloseClick}
-          onUpdateUser={handleUpdateUser}
-        ></EditProfilePopup>
-        <PopupWithForm
-          name="add-card"
-          title="Tempat baru"
-          isOpen={isAddPlacePopupOpen}
-          onClose={onCloseClick}
-        >
-          <form className="form" noValidate>
-            <input
-              type="text"
-              name="title"
-              id="add-card-title"
-              className="form__input"
-              placeholder="Judul"
-              minLength="2"
-              maxLength="30"
-              required
-            />
-            <div className="form__text-container">
-              <span className="form__input-error add-card-title-error"></span>
-            </div>
-            <input
-              type="url"
-              name="link"
-              id="add-card-link"
-              className="form__input"
-              placeholder="Tautan gambar"
-              required
-            />
-            <div className="form__text-container">
-              <span className="form__input-error add-card-link-error"></span>
-            </div>
-            <button type="submit" className="btn btn__submit">
-              Buat
-            </button>
-          </form>
-        </PopupWithForm>
-        <PopupWithForm
-          name="profile-picture"
-          title="Ubah foto profil"
-          isOpen={isEditAvatarPopupOpen}
-          onClose={onCloseClick}
-        >
-          <form className="form" noValidate>
-            <input
-              type="url"
-              name="link"
-              id="profile-picture-link"
-              className="form__input"
-              placeholder="Tautan gambar"
-              required
-            />
-            <div className="form__text-container">
-              <span className="form__input-error profile-picture-link-error"></span>
-            </div>
-            <button type="submit" className="btn btn__submit">
-              Simpan
-            </button>
-          </form>
-        </PopupWithForm>
-        <PopupWithForm
-          name="del-confirm"
-          title="Apakah Anda yakin?"
-          isOpen={isDeleteConfirmPopupOpen}
-          onClose={onCloseClick}
-        >
-          <button type="submit" className="btn btn__submit">
-            Ya
-          </button>
-        </PopupWithForm>
-        <ImagePopup
-          isOpen={Boolean(selectedCard)}
-          card={selectedCard}
-          onClose={onCloseClick}
-        />
         <div className="profile">
           <button
             className="btn btn_profile"
