@@ -50,29 +50,12 @@ function Main(props) {
         </div>
         <ul className="element">
           {cards.map((card) => {
-            const isOwn = card.owner._id === currentUser._id;
-            const isLiked = card.likes.some((i) => i._id === currentUser._id);
-
-            const cardDeleteButtonClassName = `element__delete-btn ${
-              isOwn
-                ? "element__delete-btn_visible"
-                : "element__delete-btn_hidden"
-            }`;
-
-            const cardLikeButtonClassName = `element__heart-btn ${
-              isLiked
-                ? "element__heart-btn_active"
-                : "element__heart-btn_deactive"
-            }`;
-
             return (
               <Card
                 key={card._id}
                 card={card}
                 onCardClick={onCardClick}
                 onCardLike={onCardLike}
-                cardLikeButtonClassName={cardLikeButtonClassName}
-                cardDeleteButtonClassName={cardDeleteButtonClassName}
                 onCardDelete={onCardDelete}
                 handleDeleteButton={onDeleteButtonClick}
               />

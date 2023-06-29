@@ -1,15 +1,15 @@
+import { useContext } from "react";
 import deleteCardIcon from "../images/symbols/delete.svg";
 import likeCardIcon from "../images/symbols/heart.svg";
+import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function Card(props) {
-  const {
-    card,
-    handleDeleteButton,
-    cardLikeButtonClassName,
-    cardDeleteButtonClassName,
-    onCardClick,
-    onCardLike,
-  } = props;
+  const { card, handleDeleteButton, onCardClick, onCardLike } = props;
+
+  const currentUser = useContext(CurrentUserContext);
+
+  const isOwn = card.owner._id === currentUser._id;
+  const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
   const handleClick = () => {
     onCardClick(card);
@@ -34,7 +34,13 @@ function Card(props) {
             onClick={handleClick}
           />
           <p className="element__text">{card.name}</p>
-          <button className={`btn ${cardLikeButtonClassName}`}>
+          <button
+            className={`btn element__heart-btn ${
+              isLiked
+                ? "element__heart-btn_active"
+                : "element__heart-btn_deactive"
+            }`}
+          >
             <img
               src={likeCardIcon}
               alt="heart symbol"
@@ -42,7 +48,11 @@ function Card(props) {
             />
           </button>
           <button
-            className={`btn ${cardDeleteButtonClassName}`}
+            className={`btn element__delete-btn ${
+              isOwn
+                ? "element__delete-btn_visible"
+                : "element__delete-btn_hidden"
+            }`}
             onClick={handleDeleteClick}
           >
             <img src={deleteCardIcon} alt="delete symbol" />
