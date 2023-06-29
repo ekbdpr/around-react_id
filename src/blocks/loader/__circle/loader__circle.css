@@ -1,0 +1,9 @@
+.loader__circle {
+  width: 70px;
+  height: 70px;
+  border: 5px solid;
+  border-color: #2fa2c5 transparent;
+  border-radius: 50%;
+  display: inline-block;
+  animation: rotation 1s linear infinite;
+}

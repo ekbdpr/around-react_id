@@ -1,11 +1,29 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import PopupWithForm from "./PopupWithForm";
+import FormValidator from "./FormValidator";
 
 function AddPlacePopup(props) {
   const { isOpen, onClose, onAddPlaceSubmit } = props;
 
   const [title, setTitle] = useState("");
   const [link, setLink] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setTitle("");
+      setLink("");
+      setIsLoading(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const validation = new FormValidator(formRef.current);
+
+    validation.enableValidation();
+  }, []);
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -18,8 +36,11 @@ function AddPlacePopup(props) {
   const handleAddPlaceSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     onAddPlaceSubmit({ name: title, link });
   };
+
   return (
     <>
       <PopupWithForm
@@ -28,7 +49,12 @@ function AddPlacePopup(props) {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <form className="form" noValidate onSubmit={handleAddPlaceSubmit}>
+        <form
+          ref={formRef}
+          className="form"
+          noValidate
+          onSubmit={handleAddPlaceSubmit}
+        >
           <input
             type="text"
             name="title"
@@ -37,6 +63,7 @@ function AddPlacePopup(props) {
             placeholder="Judul"
             minLength="2"
             maxLength="30"
+            value={title}
             onChange={handleTitleChange}
             required
           />
@@ -49,6 +76,7 @@ function AddPlacePopup(props) {
             id="add-card-link"
             className="form__input"
             placeholder="Tautan gambar"
+            value={link}
             onChange={handleLinkChange}
             required
           />
@@ -56,7 +84,7 @@ function AddPlacePopup(props) {
             <span className="form__input-error add-card-link-error"></span>
           </div>
           <button type="submit" className="btn btn__submit">
-            Buat
+            {isLoading ? "Menyimpan..." : "Buat"}
           </button>
         </form>
       </PopupWithForm>

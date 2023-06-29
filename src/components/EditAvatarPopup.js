@@ -1,18 +1,37 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
+import FormValidator from "./FormValidator";
 
 function EditAvatarPopup(props) {
   const { isOpen, onClose, onUpdateAvatar } = props;
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const avatarRef = useRef("");
+  const formRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     onUpdateAvatar({
       avatar: avatarRef.current.value,
     });
   };
+
+  useEffect(() => {
+    if (!isOpen) {
+      avatarRef.current.value = "";
+      setIsLoading(false);
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    const validation = new FormValidator(formRef.current);
+
+    validation.enableValidation();
+  }, []);
 
   return (
     <>
@@ -22,7 +41,7 @@ function EditAvatarPopup(props) {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <form className="form" noValidate onSubmit={handleSubmit}>
+        <form ref={formRef} className="form" noValidate onSubmit={handleSubmit}>
           <input
             type="url"
             name="link"
@@ -36,7 +55,7 @@ function EditAvatarPopup(props) {
             <span className="form__input-error profile-picture-link-error"></span>
           </div>
           <button type="submit" className="btn btn__submit">
-            Simpan
+            {isLoading ? "Menyimpan..." : "Simpan"}
           </button>
         </form>
       </PopupWithForm>

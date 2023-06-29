@@ -151,6 +151,15 @@
     url(../vendor/fonts/Inter-BlackItalic.woff?v=3.19) format("woff");
 }
 
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 html {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;

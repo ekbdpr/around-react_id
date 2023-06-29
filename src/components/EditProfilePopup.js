@@ -1,16 +1,29 @@
-import { useContext, useEffect, useState } from "react";
-
+import { useContext, useEffect, useRef, useState } from "react";
 import PopupWithForm from "./PopupWithForm";
-
 import CurrentUserContext from "../contexts/CurrentUserContext";
+import FormValidator from "./FormValidator";
 
 function EditProfilePopup(props) {
   const { isOpen, onClose, onUpdateUser } = props;
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const currentUser = useContext(CurrentUserContext);
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    setName(currentUser.name ?? "");
+    setDescription(currentUser.about ?? "");
+    setIsLoading(false);
+  }, [currentUser]);
+
+  useEffect(() => {
+    const validation = new FormValidator(formRef.current);
+
+    validation.enableValidation();
+  }, []);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -23,16 +36,13 @@ function EditProfilePopup(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setIsLoading(true);
+
     onUpdateUser({
       name,
       about: description,
     });
   };
-
-  useEffect(() => {
-    setName(currentUser.name ?? "");
-    setDescription(currentUser.about ?? "");
-  }, [currentUser]);
 
   return (
     <>
@@ -42,7 +52,7 @@ function EditProfilePopup(props) {
         isOpen={isOpen}
         onClose={onClose}
       >
-        <form className="form" noValidate onSubmit={handleSubmit}>
+        <form ref={formRef} className="form" noValidate onSubmit={handleSubmit}>
           <input
             type="text"
             name="name"
@@ -74,7 +84,7 @@ function EditProfilePopup(props) {
             <span className="form__input-error edit-profile-title-error"></span>
           </div>
           <button type="submit" className="btn btn__submit">
-            Simpan
+            {isLoading ? "Menyimpan..." : "Simpan"}
           </button>
         </form>
       </PopupWithForm>

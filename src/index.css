@@ -63,3 +63,6 @@
 @import url(./blocks/show-picture/__text/show-picture__text.css);
 /* popUp */
 @import url(./blocks/popup/popup_is-opened/popup_is-opened.css);
+/* loader */
+@import url(./blocks/loader/loader.css);
+@import url(./blocks/loader/__circle/loader__circle.css);
