@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
@@ -26,6 +26,8 @@ function App() {
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  const popupRef = useRef(null);
+
   useEffect(() => {
     setIsLoading(true);
 
@@ -39,6 +41,21 @@ function App() {
         console.log(err);
         setIsLoading(false);
       });
+
+    const handleEscKey = (e) => {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+
+    const handleClickOutside = (e) => {
+      if (e.target.classList.contains("popup_is-opened")) {
+        closeAllPopups();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscKey);
+    document.addEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleEditAvatarClick = () => {
@@ -154,32 +171,34 @@ function App() {
               onCardLike={handleCardLike}
             />
           )}
-          <EditProfilePopup
-            isOpen={isEditProfilePopupOpen}
-            onClose={closeAllPopups}
-            onUpdateUser={handleUpdateUser}
-          />
-          <EditAvatarPopup
-            isOpen={isEditAvatarPopupOpen}
-            onClose={closeAllPopups}
-            onUpdateAvatar={handleUpdateAvatar}
-          />
-          <AddPlacePopup
-            isOpen={isAddPlacePopupOpen}
-            onClose={closeAllPopups}
-            onAddPlaceSubmit={handleAddPlace}
-          />
-          <DeleteConfirmationPopup
-            isOpen={isDeleteConfirmPopupOpen}
-            card={selectedCard}
-            onClose={closeAllPopups}
-            onCardDelete={handleCardDelete}
-          />
-          <ImagePopup
-            isOpen={isImagePopupOpen}
-            card={selectedCard}
-            onClose={closeAllPopups}
-          />
+          <div ref={popupRef}>
+            <EditProfilePopup
+              isOpen={isEditProfilePopupOpen}
+              onClose={closeAllPopups}
+              onUpdateUser={handleUpdateUser}
+            />
+            <EditAvatarPopup
+              isOpen={isEditAvatarPopupOpen}
+              onClose={closeAllPopups}
+              onUpdateAvatar={handleUpdateAvatar}
+            />
+            <AddPlacePopup
+              isOpen={isAddPlacePopupOpen}
+              onClose={closeAllPopups}
+              onAddPlaceSubmit={handleAddPlace}
+            />
+            <DeleteConfirmationPopup
+              isOpen={isDeleteConfirmPopupOpen}
+              card={selectedCard}
+              onClose={closeAllPopups}
+              onCardDelete={handleCardDelete}
+            />
+            <ImagePopup
+              isOpen={isImagePopupOpen}
+              card={selectedCard}
+              onClose={closeAllPopups}
+            />
+          </div>
           <Footer />
         </CurrentUserContext.Provider>
       </div>
