@@ -18,9 +18,10 @@ function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
-  const [selectedCard, setSelectedCard] = useState(null);
   const [isDeleteConfirmPopupOpen, setisDeleteConfirmPopupOpen] =
     useState(false);
+  const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -54,9 +55,11 @@ function App() {
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
+    setIsImagePopupOpen(true);
   };
 
-  const handleDeleteCardClick = () => {
+  const handleDeleteCardClick = (card) => {
+    setSelectedCard(card);
     setisDeleteConfirmPopupOpen(true);
   };
 
@@ -65,7 +68,7 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setisDeleteConfirmPopupOpen(false);
-    setSelectedCard(null);
+    setIsImagePopupOpen(false);
   };
 
   const handleUpdateUser = (value) => {
@@ -124,6 +127,7 @@ function App() {
       .deleteCard(card._id)
       .then(() => {
         setCards((state) => state.filter((c) => c._id !== card._id));
+        closeAllPopups();
       })
       .catch((err) => {
         console.log(err);
@@ -148,7 +152,6 @@ function App() {
               onCardClick={handleCardClick}
               cards={cards}
               onCardLike={handleCardLike}
-              onCardDelete={handleCardDelete}
             />
           )}
           <EditProfilePopup
@@ -168,10 +171,12 @@ function App() {
           />
           <DeleteConfirmationPopup
             isOpen={isDeleteConfirmPopupOpen}
+            card={selectedCard}
             onClose={closeAllPopups}
+            onCardDelete={handleCardDelete}
           />
           <ImagePopup
-            isOpen={Boolean(selectedCard)}
+            isOpen={isImagePopupOpen}
             card={selectedCard}
             onClose={closeAllPopups}
           />

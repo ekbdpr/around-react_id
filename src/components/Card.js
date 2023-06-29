@@ -9,7 +9,6 @@ function Card(props) {
     cardDeleteButtonClassName,
     onCardClick,
     onCardLike,
-    onCardDelete,
   } = props;
 
   const handleClick = () => {
@@ -21,7 +20,7 @@ function Card(props) {
   };
 
   const handleDeleteClick = () => {
-    onCardDelete(card);
+    handleDeleteButton(card);
   };
 
   return (
