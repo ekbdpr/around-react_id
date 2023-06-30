@@ -1,7 +1,7 @@
 .btn_profile {
   position: relative;
-  width: 120px;
-  height: 120px;
+  min-width: 120px;
+  min-height: 120px;
   margin: 0;
   border-radius: 100%;
   background-repeat: no-repeat;
