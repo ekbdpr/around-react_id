@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 import CurrentUserContext from "../contexts/CurrentUserContext";
 
@@ -21,12 +21,11 @@ function App() {
   const [isDeleteConfirmPopupOpen, setisDeleteConfirmPopupOpen] =
     useState(false);
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
+  const [isPopupsOpen, setIsPopupsOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState(null);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const popupRef = useRef(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -41,9 +40,12 @@ function App() {
         console.log(err);
         setIsLoading(false);
       });
+  }, []);
 
+  useEffect(() => {
     const handleEscKey = (e) => {
       if (e.key === "Escape") {
+        console.log("esc key pressed");
         closeAllPopups();
       }
     };
@@ -54,30 +56,52 @@ function App() {
       }
     };
 
-    document.addEventListener("keydown", handleEscKey);
-    document.addEventListener("mousedown", handleClickOutside);
-  }, []);
+    const addEventListeners = () => {
+      document.addEventListener("keydown", handleEscKey);
+      document.addEventListener("mousedown", handleClickOutside);
+    };
+
+    const removeEventListeners = () => {
+      document.removeEventListener("keydown", handleEscKey);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+
+    if (isPopupsOpen) {
+      addEventListeners();
+    } else {
+      removeEventListeners();
+    }
+
+    return () => {
+      removeEventListeners();
+    };
+  }, [isPopupsOpen]);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
+    setIsPopupsOpen(true);
   };
 
   const handleEditProfileClick = () => {
     setIsEditProfilePopupOpen(true);
+    setIsPopupsOpen(true);
   };
 
   const handleAddPlaceClick = () => {
     setIsAddPlacePopupOpen(true);
+    setIsPopupsOpen(true);
   };
 
   const handleCardClick = (card) => {
     setSelectedCard(card);
     setIsImagePopupOpen(true);
+    setIsPopupsOpen(true);
   };
 
   const handleDeleteCardClick = (card) => {
     setSelectedCard(card);
     setisDeleteConfirmPopupOpen(true);
+    setIsPopupsOpen(true);
   };
 
   const closeAllPopups = () => {
@@ -86,6 +110,7 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setisDeleteConfirmPopupOpen(false);
     setIsImagePopupOpen(false);
+    setIsPopupsOpen(false);
   };
 
   const handleUpdateUser = (value) => {
@@ -171,34 +196,32 @@ function App() {
               onCardLike={handleCardLike}
             />
           )}
-          <div ref={popupRef}>
-            <EditProfilePopup
-              isOpen={isEditProfilePopupOpen}
-              onClose={closeAllPopups}
-              onUpdateUser={handleUpdateUser}
-            />
-            <EditAvatarPopup
-              isOpen={isEditAvatarPopupOpen}
-              onClose={closeAllPopups}
-              onUpdateAvatar={handleUpdateAvatar}
-            />
-            <AddPlacePopup
-              isOpen={isAddPlacePopupOpen}
-              onClose={closeAllPopups}
-              onAddPlaceSubmit={handleAddPlace}
-            />
-            <DeleteConfirmationPopup
-              isOpen={isDeleteConfirmPopupOpen}
-              card={selectedCard}
-              onClose={closeAllPopups}
-              onCardDelete={handleCardDelete}
-            />
-            <ImagePopup
-              isOpen={isImagePopupOpen}
-              card={selectedCard}
-              onClose={closeAllPopups}
-            />
-          </div>
+          <EditProfilePopup
+            isOpen={isEditProfilePopupOpen}
+            onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
+          />
+          <EditAvatarPopup
+            isOpen={isEditAvatarPopupOpen}
+            onClose={closeAllPopups}
+            onUpdateAvatar={handleUpdateAvatar}
+          />
+          <AddPlacePopup
+            isOpen={isAddPlacePopupOpen}
+            onClose={closeAllPopups}
+            onAddPlaceSubmit={handleAddPlace}
+          />
+          <DeleteConfirmationPopup
+            isOpen={isDeleteConfirmPopupOpen}
+            card={selectedCard}
+            onClose={closeAllPopups}
+            onCardDelete={handleCardDelete}
+          />
+          <ImagePopup
+            isOpen={isImagePopupOpen}
+            card={selectedCard}
+            onClose={closeAllPopups}
+          />
           <Footer />
         </CurrentUserContext.Provider>
       </div>
